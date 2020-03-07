@@ -22,7 +22,7 @@ extension Predicate where Target == String {
     }
 }
 
-public struct LineValue: Equatable {
+struct LineValue: Equatable {
     let file: File
     let line: Int
     let value: String
@@ -33,13 +33,13 @@ public struct LineValue: Equatable {
     }
 }
 
-public func ==(lhs: LineValue, rhs: LineValue) -> Bool {
+func ==(lhs: LineValue, rhs: LineValue) -> Bool {
     return (lhs.file == rhs.file) && (lhs.line == rhs.line) && (lhs.value == rhs.value)
 }
 
 
 extension DangerUtils {
-    public func lines(for predicate: Predicate<String>, inFile file: File) -> [LineValue] {
+    func lines(for predicate: Predicate<String>, inFile file: File) -> [LineValue] {
         let lines = readFile(file).components(separatedBy: .newlines)
         return lines.enumerated()
             .filter { predicate.matches($0.element) }
