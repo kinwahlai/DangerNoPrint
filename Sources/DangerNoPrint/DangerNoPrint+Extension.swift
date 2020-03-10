@@ -49,7 +49,7 @@ extension DangerUtils {
 
 extension String {
     var range: NSRange {
-        return NSRange(location: 0, length: self.utf8.count)
+        return NSRange(0 ..< self.count)
     }
 }
 

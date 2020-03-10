@@ -7,7 +7,7 @@ extension XCTestCase {
     var activePrintStatement: String {
         """
         func setAmenity(_ amenity: String) {
-            print(amenity)
+            print(amenity123)
             amenityLabel.text = amenity
         }
         """.replacingOccurrences(of: "\n", with: "\\n")
@@ -15,8 +15,20 @@ extension XCTestCase {
     var commentedPrintStatement: String {
         """
         func setAmenity(_ amenity: String) {
-            print(amenity)
-            // print(amenity)
+            print(amenity321)
+            // print(amenity321)
+            amenityLabel.text = amenity
+        }
+        """.replacingOccurrences(of: "\n", with: "\\n")
+    }
+    
+    var commentedPrintStatementWithEmptyLine: String {
+        """
+        func setAmenity(_ amenity: String) {
+            print(amenity1234)
+            // print(amenity1234)
+        
+        
             amenityLabel.text = amenity
         }
         """.replacingOccurrences(of: "\n", with: "\\n")
@@ -68,6 +80,12 @@ final class DangerNoPrintTests: XCTestCase {
     
     func testPrintStatementFound() {
         let danger = githubWithFilesDSL(created: ["file.swift"], modified: ["file.swift"], fileMap: ["file.swift": activePrintStatement, "file2.swift": commentedPrintStatement])
+        DangerNoPrint(dsl: danger).check(files: ["file.swift", "file2.swift"], inLine: true, predicate: Predicate.CheckPrint)
+        XCTAssertEqual(danger.warnings.count, 3)
+    }
+    
+    func testHandleEmptyNewLine() {
+        let danger = githubWithFilesDSL(created: ["file.swift"], modified: ["file.swift"], fileMap: ["file.swift": activePrintStatement, "file2.swift": commentedPrintStatementWithEmptyLine])
         DangerNoPrint(dsl: danger).check(files: ["file.swift", "file2.swift"], inLine: true, predicate: Predicate.CheckPrint)
         XCTAssertEqual(danger.warnings.count, 3)
     }

@@ -23,7 +23,8 @@ public final class DangerNoPrint {
     }
 
     fileprivate func isOneLineComment(line: String) -> Bool {
-        let pattern = #"^\s*\/\/"#
+        guard !line.isEmpty else { return true }
+        let pattern = "^\\s*\\/\\/"
         return NSRegularExpression(pattern).matches(line)
     }
     

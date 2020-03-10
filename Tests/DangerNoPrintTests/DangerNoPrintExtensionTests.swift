@@ -23,14 +23,14 @@ final class DangerNoPrintExtensionTests: XCTestCase {
         let danger = githubWithFilesDSL(created: ["file.swift"], fileMap: ["file.swift": activePrintStatement])
         let found = danger.utils.lines(for: Predicate.CheckPrint, inFile: "file.swift")
         XCTAssertEqual(found.count, 1)
-        XCTAssertEqual(found, [LineValue("file.swift", 1,"    print(amenity)")])
+        XCTAssertEqual(found, [LineValue("file.swift", 1,"    print(amenity123)")])
     }
     
     func testCommentedPrintFoundInCode() {
         let danger = githubWithFilesDSL(created: ["file.swift"], fileMap: ["file.swift": commentedPrintStatement])
         let found = danger.utils.lines(for: Predicate.CheckPrint, inFile: "file.swift")
         XCTAssertEqual(found.count, 2)
-        XCTAssertEqual(found, [LineValue("file.swift", 1, "    print(amenity)"), LineValue("file.swift", 2, "    // print(amenity)")])
+        XCTAssertEqual(found, [LineValue("file.swift", 1, "    print(amenity321)"), LineValue("file.swift", 2, "    // print(amenity321)")])
     }
     
     static var allTests = [
